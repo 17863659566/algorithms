@@ -1,0 +1,73 @@
+1. heapsort T(n) = Ο(nlgn);
+2. 是一种原地排序算法，只有常量个元素存储在输入数组以外
+3. 数据结构：数组对象（可以使用二叉树的顺序存储的操作方式来操作，并且是满二叉树）
+4. 两个属性：
+		1. 数组中元素的个数为 lengh[a]
+		2. heap-size[a]表示堆中的元素个数
+		3. 属性之间的关系 heap-size < length  因为堆中的元素可能将数组填满，也可能不能填满，其他的数据可能为其他的信息
+5. 二叉树的树根计算和二叉树的左右子数的计算公式
+		1. root    return i/2
+		2. left child  return 2*i
+		3. right child return 2*i + 1
+		也就是left child  都是奇数位置  right child  都是偶数位置  从当前节点计算root就是i/2
+6. 二叉堆的分类
+		1. 大根堆
+				特性：A[parent[i]] >= A[i]
+		2. 小根堆
+			  特性：A[parent[i]] <= A[i]
+7. 堆中节点的高度 = 节点到叶子的最长简单下降路径
+   堆的高度 = root的高度 = θ(lgn)
+8. MaxHeapify( A, i ):
+		保持堆的性质。
+		假设数组A和下标i，假定以Left(i)和Right(i)为根结点的左右两棵子树都已经是最大堆，
+		节点i的值可能小于其子节点。调整节点i的位置。
+		
+		pseudo code:
+			MAX-HEAPIFY(A,i)
+				l ← LEFT(i)
+				r ← RIGHT(i)
+				if(l <= heap-size[A] and A[l] > A[i])
+					then largest ← l
+					else largest ← i
+				if(r <= heap-size[A] and A[r] > A[largest])
+					then largest ← r
+				if(i != largest)
+					then exchange A[i] ↔ A[largest]
+							 MAX-HEAPIFY(A,largest)
+		worse-cast时间复杂度分析
+				时间复杂度计算的过程
+				图片见MaxHeapify时间复杂度的计算 
+				
+9. BuildMaxHeap( A ):
+   从一个给定的数组建立最大堆。
+   子数组A[ floor(n/2)+1 .... ... n]中的元素都是树的叶节点(完全二叉树的基本性质)。
+   从索引 ceiling(n/2)开始一直到1，对每一个元素都执行MaxHeapify，最终得到一个最大堆。
+   pseudo code :
+   	BUILD-MAX-HEAPIFY
+   		heap-size[A] ← length[A]
+   		for i ← length[A] / 2 downto 1
+   				do MAX-HEAPIFY(A, i)
+   worse-case 时间复杂度分析
+   				 lgn取下整
+   	T(n) = ∑(n/2^(h+1))Ο(h)
+   				 h=0
+   				   ∞
+   			 = Ο(n∑(h/2^h))
+   			     0
+   			 = Ο(n)
+10. 堆排序 HeapSort( A ):
+   堆排序算法的基本思想是，
+   将数组A创建为一个最大堆，然后交换堆的根(最大元素)和最后一个叶节点x，将x从堆中去掉形成新的堆A1，
+   然后重复以上动作，直到堆中只有一个节点。
+   pseudo code
+   	HEAPSORT(A)
+   		BUILD-MAX-HEAP(A)
+   		for i ← length[A] downto 2
+   			do exchange A[1] ↔ A[i]
+   			   heap-size ← heap-size[A] - 1
+   			   MAX-HEAPIFY[A,1]
+   思想：由于是大根堆，如果是由小到大排序的话，那么将第一个（最大的）摘下来放到最后一位，然后将前面的n-1位
+   				保持性质，再找出最大的放在倒数第二位，依次进行，直到所有的节点都被摘下来为止，这个判定条件就是数组
+   				的长度
+   
+  
